@@ -1,10 +1,11 @@
 <?php
 require_once('query.php');
-class operation{
+require_once('file.php');
+class operation extends query{
  
     function fetch($table,$field,$condition=""){
-    $obj = new query();
-    $result = $obj->getData($table,$field,$condition);
+    //$obj = new query();
+    $result = $this->getData($table,$field,$condition);
     return $result;
 
   }
@@ -12,13 +13,13 @@ class operation{
   function update($table,$data,$condition1,$condition2){
    // $data =['firstname'=>$firstname,'lastname'=>$lastname,'email'=>$email,'phn'=>$phnNumber,'password'=>$password,'cv'=>$dir];
      //deleting existing file           
-    $obj = new query();
-    $dir = $obj->getData('users','*',[$condition1=>$condition2]);
+    //$obj = new query();
+    $dir = $this->getData('users','*',[$condition1=>$condition2]);
     $row = $dir->fetch_assoc();
     $cv =$row['cv'];
     unlink($cv);
 
-    $result = $obj->updateData($table,$data,$condition1,$condition2);
+    $result = $this->updateData($table,$data,$condition1,$condition2);
 
     if($result!=0){
         header("location:home.php");
@@ -30,32 +31,32 @@ class operation{
  
   function delete($table,$id){
     if($table =='users'){
-    $obj = new query();
-    $data = $obj->getData('users','*',['id'=>$id]);
+   // $obj = new query();
+    $data = $this->getData('users','*',['id'=>$id]);
     $row = $data->fetch_assoc();
     $userid =$row['id'];
-    $obj1 = new query();
-    $userdata = $obj->getData('user_files','*',['userid'=>$userid]);
+    $obj1 = new filehandling();
+    $obj1-> filedelete($table,'id',$id);
+
+    // $userdata = $this->getData('user_files','*',['userid'=>$userid]);
     
-    //deleting user files from directory
-    if($userdata->num_rows>0){ 
-      while($rows = $userdata->fetch_assoc()){
-        $userfile = $rows['filedir'];
-        unlink($userfile);
-      }}
+    // //deleting user files from directory
+    // if($userdata->num_rows>0){ 
+    //   while($rows = $userdata->fetch_assoc()){
+    //     $userfile = $rows['filedir'];
+    //     unlink($userfile);
+    //   }}
  
-    $fildir = $row['cv'];
-    unlink($fildir);
+    // $fildir = $row['cv'];
+    // unlink($fildir);
    
-  $result =  $obj->deleteData('users',['id'=>$id]);
+  $result =  $this->deleteData('users',['id'=>$id]);
   return $result;
 }elseif($table=='user_files'){
-  $obj = new query();
-  $data = $obj->getData('user_files','*',['id'=>$id]);
-  $row = $data->fetch_assoc();
-  $fildir = $row['filedir'];
-  unlink($fildir);
-$result =  $obj->deleteData('user_files',['id'=>$id]);
+  //$obj = new query();
+  $obj1 = new filehandling();
+    $obj1-> filedelete('user_files','id',$id);
+$result =  $this->deleteData('user_files',['id'=>$id]);
 
   if($result!=0){
       header("location:fetch.php");
@@ -66,8 +67,8 @@ $result =  $obj->deleteData('user_files',['id'=>$id]);
   }
  
   function search($table,$search,$parameter){
-    $obj = new query();
-    $result = $obj->searchData($table,$search,$parameter);
+  //  $obj = new query();
+    $result = $this->searchData($table,$search,$parameter);
     return $result;
   }
 }

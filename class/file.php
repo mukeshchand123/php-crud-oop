@@ -1,6 +1,6 @@
 <?php
 require_once('query.php');
-class filehandling{
+class filehandling extends query{
     function file_upload($filename,$tmp_name,$dirname,$email){
                  $rand = rand('111111','999999');
              
@@ -20,8 +20,8 @@ class filehandling{
 
     }
     function filedelete($table,$userid,$id){
-        $obj = new query();
-        $userdata = $obj->getData($table,'*',['userid'=>$userid]);
+        //$obj = new query();
+        $userdata = $this->getData($table,'*',[$userid=>$id]);
         
         //deleting user files from directory
         if($userdata->num_rows>0){ 

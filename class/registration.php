@@ -1,7 +1,7 @@
 <?php 
 require_once('query.php');
 
-class registration{
+class registration {
 
     function register($data,$email){
 

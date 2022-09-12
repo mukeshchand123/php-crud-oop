@@ -15,6 +15,9 @@
     }
     }
 
+    class Line extends Triangle{
 
-    $tri = new Triangle();
+    }
+
+    $tri = new Line();
 ?>

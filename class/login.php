@@ -1,7 +1,7 @@
 <?php 
 require_once('query.php');
 
-class login{
+class login extends {
 
     function __construct($email,$password){
 
@@ -12,7 +12,9 @@ class login{
      if($result->num_rows > 0){
         echo "email verified<br>";
         //verify password
+       
         $row = $result->fetch_assoc();
+        echo $row['email'];
       if(md5($password)==$row['password']){
         //if password matches.
             session_start();
@@ -29,7 +31,7 @@ class login{
       }
      }else{
                  echo"user not registered.Please register before loging in.";
-                 header("location:login.php");
+                // header("location:login.php");
              }
 
     }
