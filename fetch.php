@@ -4,15 +4,16 @@
         header("location:login.php");
         exit;
     }
-    require_once('query.php');
+  //  require_once('query.php');
+    require_once('class/operation.php');
     $user = $_SESSION['username'];
     $user_email = $_SESSION['email'];
-     $id =  $_SESSION['id'];
+    $id =  $_SESSION['id'];
          
 
 
-$obj = new query();
-$result = $obj->getData('user_files','*',['userid'=>$id]);
+$obj = new operation();
+$result = $obj->fetch('user_files','*',['userid'=>$id]);
 
     
 

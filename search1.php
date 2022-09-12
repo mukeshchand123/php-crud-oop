@@ -4,11 +4,11 @@ if(!isset($_SESSION['login']) || $_SESSION['login']!==true){
     header("location:login.php");
   }
 //require_once('index.php');
-require_once('query.php');
+require_once('class/operation.php');
 if(isset($_POST['create'])){
     $search = $_POST['search'];
-    $obj = new query();
-    $result = $obj->searchData('user_files',$search,['id','userid','filename','filedir']);
+    $obj = new operation();
+    $result = $obj->search('user_files',$search,['id','userid','filename','filedir']);
 
 }
 
@@ -60,8 +60,7 @@ if(isset($_POST['create'])){
                     <td>".$row['userid']."</td>
                     <td>".$row['filename']."</td>
                     <td>".$row['filedir']."</td>
-                    <td><a href='delete.php ? i=$row[id]'>Delete <a href='update1.php ? j=$row[id]
-                   '>Update</td>
+                    <td><a href='delete.php ? i=$row[id]'>Delete </td>
                 </tr> ";         
                     
                 }       

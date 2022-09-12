@@ -1,5 +1,7 @@
 <?php 
-require_once('query.php');
+require_once('class/query.php');
+require_once('class/file.php');
+require_once('class/registration.php');
 
 session_start();
 if(isset($_SESSION['login'])){
@@ -15,38 +17,30 @@ if(isset($_POST['create'])){
     $email        = $_POST['email'];
     $phnNumber    = $_POST['phnNumber'];
     $password     = md5($_POST['password']);
-
+   
+    $dirname = 'regs';
     $filename = $_FILES['file']['name'];
     $tempname =  $_FILES['file']['tmp_name'];
-    $filesize =  $_FILES['file']['size'];
-   // echo "$lastname<br>";
-    
+  
+    $fileobj = new filehandling();
+
     $validext =  ['application/pdf'];
     $ext = $_FILES['file']['type'];
             // saving file in regs directory
-            echo"$filename<br>";
-            if(in_array($ext,$validext)==true){
-                echo "valid<br>";
-              
-                $rand = rand('111111','999999');
-             
-                $newname=$email.'_'.$rand.'_'.$filename;
-                
-                move_uploaded_file($tempname,'regs/'.$newname);
-                $dir = 'regs/'.$newname;
+    $valid = $fileobj->filevalidation($ext,$validext);
+            if($valid){
+                $dir = $fileobj->file_upload($filename, $tempname, $dirname,$email);
                 $data =['firstname'=>$firstname,'lastname'=>$lastname,'email'=>$email,'phn'=>$phnNumber,'password'=>$password,'cv'=>$dir];
+               // $dirname = 'regs';
+                $registerobj = new registration();
+                $registerobj->register($data,$email);
                 
-                $obj = new query();
-                $result = $obj->getData('users',"email",['email'=>$email]);
-                if($result->num_rows > 0){
-                    echo "email already exists.Please enter a new email.";
-                }else{
-                $obj->insertData('users',$data);
+               
                 }
 
    
             }
-}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

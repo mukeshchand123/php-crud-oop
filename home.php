@@ -1,13 +1,13 @@
 <?php
-require_once('query.php');
-//require_once('registration.php')
+ require_once('class/operation.php');
+
 session_start();
 if(!isset($_SESSION['login']) || $_SESSION['login']!==true){
   header("location:login.php");
 }
-$obj = new query();
-// $sql = "SELECT * FROM `useraccounts`.`users`";
-$result = $obj->getData('users','*');
+
+$obj = new operation();
+$result = $obj->fetch('users','*');
 
 
 ?>

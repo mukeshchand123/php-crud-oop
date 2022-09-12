@@ -1,5 +1,5 @@
 <?php
-require_once('query.php');
+require_once('class/login.php');
   session_start();
   if(isset($_SESSION['login'])){
         
@@ -15,35 +15,10 @@ require_once('query.php');
          }
      $email = $_POST['email'];
      $password = $_POST['password'];
-     //$sql ="SELECT * FROM `useraccounts`.`users` WHERE `users`.`email`='$email';";
-    $obj = new query();
-   // print_r($obj);
-     $result = $obj->getData('users','*',['email'=>$email]);
-    //  echo"<pre>";
-    //  print_r($result);
      
-     if($result->num_rows > 0){
-        echo "email verified<br>";
-        //verify password
-        $row = $result->fetch_assoc();
-      if(md5($password)==$row['password']){
-        //if password matches.
-            session_start();
-             $_SESSION['email'] = $email;
-             $_SESSION['username'] = $row['firstname'].' '.$row['lastname'];
-             $_SESSION['id'] = $row['id'];
-             $_SESSION['login'] = true;
-             $_SESSION['phnNumber']= $row['phn'];
-             $_SESSION['cv']=$row['cv'];
-             header("location:welcom.php");
-
-      }else{
-        echo "Wrong password";
-      }
-     }else{
-                 echo"user not registered.Please register before loging in.";
-                 header("location:login.php");
-             }
+     $obj = new login($email,$password);
+     
+     
  }
 
 

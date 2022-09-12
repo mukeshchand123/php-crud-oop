@@ -3,7 +3,9 @@ session_start();
 if(!isset($_SESSION['login']) || $_SESSION['login']!==true){
   header("location:login.php");
 }
-require_once('query.php');
+require_once('class/query.php');
+require_once('class/operation.php');
+require_once('class/query.php');
 
 if(isset($_POST['create'])){
 

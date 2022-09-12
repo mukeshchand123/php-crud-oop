@@ -4,11 +4,11 @@ if(!isset($_SESSION['login']) || $_SESSION['login']!==true){
     header("location:login.php");
   }
 //require_once('index.php');
-require_once('query.php');
+require_once('class/operation.php');
 if(isset($_POST['create'])){
     $search = $_POST['search'];
-    $obj = new query();
-    $result = $obj->searchData('users',$search,['id','firstname','lastname','email','phn']);
+    $obj = new operation();
+    $result = $obj->search('users',$search,['id','firstname','lastname','email','phn','cv']);
 
 }
 
