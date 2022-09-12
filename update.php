@@ -4,8 +4,17 @@ if(!isset($_SESSION['login']) || $_SESSION['login']!==true){
   header("location:login.php");
 }
 require_once('class/query.php');
-$id = $_GET['j'];
-echo"$id<br>";
+if (!headers_sent()) {
+    echo '<script type="text/javascript">
+
+    window.onload = function () { alert("Only pdf files are valid."); }
+
+    </script>';
+   $id = $_SESSION['newid'];
+  
+  }else{
+$id = $_GET['j'];}
+
  //fetching data to be edited
  $obj = new query();
  $result = $obj->getData('users','*',['id'=>$id]);

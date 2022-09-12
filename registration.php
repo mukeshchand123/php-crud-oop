@@ -33,9 +33,22 @@ if(isset($_POST['create'])){
                 $data =['firstname'=>$firstname,'lastname'=>$lastname,'email'=>$email,'phn'=>$phnNumber,'password'=>$password,'cv'=>$dir];
                // $dirname = 'regs';
                 $registerobj = new registration();
-                $registerobj->register($data,$email);
+                $result = $registerobj->register($data,$email);
+                if($result==true){
+                    echo '<script type="text/javascript">
+
+                           window.onload = function () { alert("email alraedy exist."); }
+
+                          </script>';
+                }
                 
                
+                }else{
+                    echo '<script type="text/javascript">
+
+                      window.onload = function () { alert("Only pdf files are valid."); }
+     
+                      </script>';
                 }
 
    

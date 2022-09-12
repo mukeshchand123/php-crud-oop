@@ -9,7 +9,8 @@ class registration {
         $obj = new query();
         $result = $obj->getData('users',"email",['email'=>$email]);
         if($result->num_rows > 0){
-            echo "email already exists.Please enter a new email.";
+           // echo "email already exists.Please enter a new email.";
+           return true;
         }else{
         $obj->insertData('users',$data);
         }

@@ -1,7 +1,7 @@
 <?php 
 require_once('query.php');
 
-class login extends {
+class login {
 
     function __construct($email,$password){
 
@@ -10,11 +10,11 @@ class login extends {
      $result = $obj->getData('users','*',['email'=>$email]);
     
      if($result->num_rows > 0){
-        echo "email verified<br>";
+       
         //verify password
        
         $row = $result->fetch_assoc();
-        echo $row['email'];
+        
       if(md5($password)==$row['password']){
         //if password matches.
             session_start();
@@ -27,11 +27,24 @@ class login extends {
              header("location:welcom.php");
 
       }else{
-        echo "Wrong password";
+       // echo "Wrong password";
+        echo '<script type="text/javascript">
+
+              window.onload = function () { alert("wrong password"); }
+
+              </script>';
+             // header("location:login.php?msg=Wrong password");
+
       }
      }else{
-                 echo"user not registered.Please register before loging in.";
-                // header("location:login.php");
+                // echo"user not registered.Please register before loging in.";
+                 echo '<script type="text/javascript">
+
+                      window.onload = function () { alert("user not registered.Please register before loging in."); }
+     
+                      </script>';
+                     // sleep(5);
+                      //header("location:registration.php");
              }
 
     }

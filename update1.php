@@ -13,7 +13,7 @@ if(isset($_POST['create'])){
     $email        = $_POST['email'];
     $phnNumber    = $_POST['phnNumber'];
     $password     = md5($_POST['password']);
-    echo$firstname;
+    //echo$firstname;
     $filename = $_FILES['file']['name'];
     $tempname =  $_FILES['file']['tmp_name'];
     $filesize =  $_FILES['file']['size'];
@@ -22,7 +22,7 @@ if(isset($_POST['create'])){
     $validext =  ['application/pdf'];
     $ext = $_FILES['file']['type'];
             // saving file in regs directory
-            echo"$filename<br>";
+           // echo"$filename<br>";
             $fileobj = new filehandling();
             $valid = $fileobj->filevalidation($ext,$validext);
             if($valid){
@@ -30,14 +30,21 @@ if(isset($_POST['create'])){
                 $data =['firstname'=>$firstname,'lastname'=>$lastname,'email'=>$email,'phn'=>$phnNumber,'password'=>$password,'cv'=>$dir];
                // $dirname = 'regs';
                 $obj = new operation();
-                $obj->update('users',$data,'id',$id);
+                $obj->update('users',$data,'id',$id);    
+            }else{
+                echo '<script type="text/javascript">
 
-
-                
-               
-                }else{
-                    echo "Only pdf files are valid.";
-                }
+                      window.onload = function () { alert("Only pdf files are valid."); }
+     
+                      </script>';
+                      $_SESSION['newid']=$id;
+                     // header( "refresh:1;url=update.php" ); waits for 1 sec before header is sent
+                      header('location:update.php?only pdf files');
+            }
+           
+                // else{
+                //     echo "Only pdf files are valid.";
+                // }
             // if(in_array($ext,$validext)==true){
             //     echo "valid<br>";
               

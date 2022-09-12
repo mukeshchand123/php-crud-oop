@@ -64,7 +64,8 @@ public function insertData($table,$condition){
        $result = mysqli_query($this->con,$sql);
        //echo$sql;
        if($result){
-         echo"Data inserted successfully.<br>";
+        // echo"Data inserted successfully.<br>"; display a message box.
+
        }
     
 
@@ -120,7 +121,11 @@ public function updateData($table,$condition="",$field,$value){
        return $result;
     
     }else{
-        return 0;
+        echo '<script type="text/javascript">
+
+                      window.onload = function () { alert("update failed."); }
+     
+                      </script>';
     }
 }
   

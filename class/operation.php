@@ -38,25 +38,13 @@ class operation extends query{
     $obj1 = new filehandling();
     $obj1-> filedelete($table,'id',$id);
 
-    // $userdata = $this->getData('user_files','*',['userid'=>$userid]);
-    
-    // //deleting user files from directory
-    // if($userdata->num_rows>0){ 
-    //   while($rows = $userdata->fetch_assoc()){
-    //     $userfile = $rows['filedir'];
-    //     unlink($userfile);
-    //   }}
- 
-    // $fildir = $row['cv'];
-    // unlink($fildir);
-   
   $result =  $this->deleteData('users',['id'=>$id]);
   return $result;
 }elseif($table=='user_files'){
-  //$obj = new query();
+ 
   $obj1 = new filehandling();
     $obj1-> filedelete('user_files','id',$id);
-$result =  $this->deleteData('user_files',['id'=>$id]);
+ $result =  $this->deleteData('user_files',['id'=>$id]);
 
   if($result!=0){
       header("location:fetch.php");
