@@ -123,11 +123,7 @@ public function updateData($table,$condition="",$field,$value){
        return $result;
     
     }else{
-        echo '<script type="text/javascript">
-
-                      window.onload = function () { alert("update failed."); }
-     
-                      </script>';
+        return 0;
     }
 }
   

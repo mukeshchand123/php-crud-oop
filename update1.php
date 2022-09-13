@@ -48,22 +48,6 @@ if(isset($_POST['create'])){
                      header('location:update.php?only pdf files');
             }
            
-                // else{
-                //     echo "Only pdf files are valid.";
-                // }
-            // if(in_array($ext,$validext)==true){
-            //     echo "valid<br>";
-              
-            //     $rand = rand('111111','999999');
-             
-            //     $newname=$email.'_'.$rand.'_'.$filename;
-                
-            //     move_uploaded_file($tempname,'regs/'.$newname);
-            //     $dir = 'regs/'.$newname;
-            //     $data =['firstname'=>$firstname,'lastname'=>$lastname,'email'=>$email,'phn'=>$phnNumber,'password'=>$password,'cv'=>$dir];
-                
-            //     $obj = new query();
-            //     $result = $obj->updateData('users',$data,'id',$id);
               
 }
 ?>

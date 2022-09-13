@@ -19,7 +19,26 @@ require_once('class/login.php');
      $email = $_POST['email'];
      $password = $_POST['password'];
      
-     $result = new login($email,$password);
+     $obj = new login();
+     $result = $obj->login($email,$password);
+     if($result === true){
+        header("location:welcom.php");
+     }elseif($result === false){
+        echo '<script type="text/javascript">
+
+              window.onload = function () { alert("wrong password"); }
+
+              </script>';
+             //header("location:login.php?msg=Wrong password");
+
+     }else{
+        
+        echo '<script type="text/javascript">
+
+               window.onload = function () { alert("user not registered.Please register before loging in."); }
+     
+              </script>';
+    }
     
     }
      
