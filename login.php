@@ -20,10 +20,18 @@ require_once('class/login.php');
      $password = $_POST['password'];
      
      $obj = new login();
-     $result = $obj->login($email,$password);
-     if($result === true){
+     $row = $obj->login($email,$password);
+     if($row){
+        session_start();
+        $_SESSION['email'] = $email;
+        $_SESSION['username'] = $row['firstname'].' '.$row['lastname'];
+        $_SESSION['id'] = $row['id'];
+        $_SESSION['login'] = true;
+        $_SESSION['phnNumber']= $row['phn'];
+        $_SESSION['cv']=$row['cv'];
+        
         header("location:welcom.php");
-     }elseif($result === false){
+     }elseif($row === false){
         echo '<script type="text/javascript">
 
               window.onload = function () { alert("wrong password"); }
