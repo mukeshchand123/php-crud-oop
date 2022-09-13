@@ -20,13 +20,13 @@ class operation extends query{
     unlink($cv);
 
     $result = $this->updateData($table,$data,$condition1,$condition2);
-
-    if($result!=0){
-        header("location:home.php");
-    }   
-    else{
-    header("location:update.php");
-    }
+    return $result;
+    // if($result!=0){
+    //     header("location:home.php");
+    // }   
+    // else{
+    // header("location:update.php");
+    // }
   }
  
   function delete($table,$id){
@@ -45,10 +45,10 @@ class operation extends query{
   $obj1 = new filehandling();
     $obj1-> filedelete('user_files','id',$id);
  $result =  $this->deleteData('user_files',['id'=>$id]);
-
-  if($result!=0){
-      header("location:fetch.php");
-  }
+ return $result;
+  // if($result!=0){
+  //     header("location:fetch.php");
+  // }
  
 }
 

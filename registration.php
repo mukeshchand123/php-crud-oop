@@ -11,6 +11,7 @@ if(isset($_SESSION['login'])){
 }else{
    session_destroy();
 }
+
 if(isset($_POST['create'])){
     $firstname    = $_POST['firstName'];
     $lastname     = $_POST['lastName'];
@@ -34,10 +35,16 @@ if(isset($_POST['create'])){
                // $dirname = 'regs';
                 $registerobj = new registration();
                 $result = $registerobj->register($data,$email);
-                if($result==true){
+                if($result==false){
                     echo '<script type="text/javascript">
 
                            window.onload = function () { alert("email alraedy exist."); }
+
+                          </script>';
+                }elseif($result == true){
+                    echo '<script type="text/javascript">
+
+                           window.onload = function () { alert("User Registered Sucessfully."); }
 
                           </script>';
                 }

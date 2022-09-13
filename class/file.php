@@ -21,6 +21,7 @@ class filehandling extends query{
     }
     function filedelete($table,$userid,$id){
         //$obj = new query();
+        $flag = false;
         $userdata = $this->getData($table,'*',[$userid=>$id]);
         
         //deleting user files from directory
@@ -28,8 +29,10 @@ class filehandling extends query{
           while($rows = $userdata->fetch_assoc()){
             $userfile = $rows['filedir'];
             unlink($userfile);
+            $flag = true;
           }}
 
+          return $flag;
     }
 }
 

@@ -65,7 +65,9 @@ public function insertData($table,$condition){
        //echo$sql;
        if($result){
         // echo"Data inserted successfully.<br>"; display a message box.
-
+        return true;
+       }else {
+        return false;
        }
     
 

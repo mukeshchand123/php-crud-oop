@@ -8,6 +8,9 @@ require_once('class/login.php');
  }else{
      session_destroy();
  }
+
+ 
+
  if(isset($_POST['create'])){
     
      if(isset($_SESSION['username'])){
@@ -16,10 +19,11 @@ require_once('class/login.php');
      $email = $_POST['email'];
      $password = $_POST['password'];
      
-     $obj = new login($email,$password);
+     $result = new login($email,$password);
+    
+    }
      
-     
- }
+ 
 
 
 ?>

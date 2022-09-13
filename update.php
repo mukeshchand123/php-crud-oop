@@ -4,7 +4,7 @@ if(!isset($_SESSION['login']) || $_SESSION['login']!==true){
   header("location:login.php");
 }
 require_once('class/query.php');
-if (!headers_sent()) {
+if ( $_SESSION['newid']) {
     echo '<script type="text/javascript">
 
     window.onload = function () { alert("Only pdf files are valid."); }
@@ -13,7 +13,8 @@ if (!headers_sent()) {
    $id = $_SESSION['newid'];
   
   }else{
-$id = $_GET['j'];}
+$id = $_GET['j'];
+}
 
  //fetching data to be edited
  $obj = new query();

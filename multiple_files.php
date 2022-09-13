@@ -19,9 +19,12 @@ if(isset($_POST['create'])){
     //    $sql = "INSERT INTO `user_files` (`userid`, `filename`, `filedir`) VALUES ('$id','$file','$path');";
     //    mysqli_query($con,$sql);
         $obj = new query();
-        $obj->insertData('user_files',['userid'=>$id,'filename'=>$file,'filedir'=>$path]);
-
+       $result= $obj->insertData('user_files',['userid'=>$id,'filename'=>$file,'filedir'=>$path]);
+        if($result){
         header('location:fetch.php');
+        }else{
+            header('location:multiple_files.php');
+        }
 
 
     }

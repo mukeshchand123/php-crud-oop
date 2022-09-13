@@ -10,7 +10,11 @@ if(!isset($_SESSION['login']) || $_SESSION['login']!==true){
     $id = $_GET['i'];
     
     $obj = new operation();
-    $obj->delete('user_files',$id);
+   $result= $obj->delete('user_files',$id);
+   if($result!=0){
+        header("location:fetch.php");
+    }
+   
 
 //for data deletion from database
   //   $obj = new query();

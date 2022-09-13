@@ -30,7 +30,13 @@ if(isset($_POST['create'])){
                 $data =['firstname'=>$firstname,'lastname'=>$lastname,'email'=>$email,'phn'=>$phnNumber,'password'=>$password,'cv'=>$dir];
                // $dirname = 'regs';
                 $obj = new operation();
-                $obj->update('users',$data,'id',$id);    
+               $result= $obj->update('users',$data,'id',$id); 
+               if($result!=0){
+                    header("location:home.php");
+                }   
+                else{
+                header("location:update.php");
+                }   
             }else{
                 echo '<script type="text/javascript">
 
@@ -38,8 +44,8 @@ if(isset($_POST['create'])){
      
                       </script>';
                       $_SESSION['newid']=$id;
-                     // header( "refresh:1;url=update.php" ); waits for 1 sec before header is sent
-                      header('location:update.php?only pdf files');
+                     // header( "refresh:1;url=update.php" );//waits for 1 sec before header is sent
+                     header('location:update.php?only pdf files');
             }
            
                 // else{

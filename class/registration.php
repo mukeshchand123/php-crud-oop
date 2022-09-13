@@ -1,18 +1,19 @@
 <?php 
 require_once('query.php');
 
-class registration {
+class registration extends query {
 
     function register($data,$email){
 
              
-        $obj = new query();
-        $result = $obj->getData('users',"email",['email'=>$email]);
+       // $obj = new query();
+        $result = $this->getData('users',"email",['email'=>$email]);
         if($result->num_rows > 0){
            // echo "email already exists.Please enter a new email.";
-           return true;
+           return false;
         }else{
-        $obj->insertData('users',$data);
+        $this->insertData('users',$data);
+        return true;
         }
 
 
