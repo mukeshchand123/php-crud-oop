@@ -5,26 +5,54 @@ if(!isset($_SESSION['login']) || $_SESSION['login']!==true){
 }
 
 require_once('class/query.php');
+require_once('class/file.php');
+require_once('class/operation.php');
+
+
+$obj = new filehandling();
+$email = $_SESSION['email'];
+$id = $_SESSION['id'];
 
 if(isset($_POST['create'])){
 
     foreach($_FILES['file']['name'] as $key => $val ){
-        $rand = rand('11111','99999');
-        $file = $rand.'_'.$val;
-        move_uploaded_file($_FILES['file']['tmp_name'][$key],'files/'.$file);
-       // $dir = pathinfo($file);
-        $path = 'files/'.$file;
-       // echo $path."<br>";
-       $id = $_SESSION['id'];
-    //    $sql = "INSERT INTO `user_files` (`userid`, `filename`, `filedir`) VALUES ('$id','$file','$path');";
-    //    mysqli_query($con,$sql);
-        $obj = new query();
-       $result= $obj->insertData('user_files',['userid'=>$id,'filename'=>$file,'filedir'=>$path]);
-        if($result){
+    //     $rand = rand('11111','99999');
+    //     $file = $rand.'_'.$val;
+    //     move_uploaded_file($_FILES['file']['tmp_name'][$key],'files/'.$file);
+    //    // $dir = pathinfo($file);
+    //     $path = 'files/'.$file;
+    //    // echo $path."<br>";
+    //    $id = $_SESSION['id'];
+    // //    $sql = "INSERT INTO `user_files` (`userid`, `filename`, `filedir`) VALUES ('$id','$file','$path');";
+    // //    mysqli_query($con,$sql);
+    //     $obj = new query();
+    //    $result= $obj->insertData('user_files',['userid'=>$id,'filename'=>$file,'filedir'=>$path]);
+    //     if($result){
+    //     header('location:fetch.php');
+    //     }else{
+    //         header('location:multiple_files.php');
+    //     }
+//from file class
+$filename=$_FILES['file']['name'][$key];
+$tmp_name=$_FILES['file']['tmp_name'][$key];
+$dirname = 'files';
+$result = $obj->file_upload($filename,$tmp_name,$dirname,$email);
+//echo $result."<br>";
+ $file = explode('/',$result);
+// echo "<pre>";
+// print_r($file);
+// echo "</pre>";
+$newname = $file[1];
+$obj1 =new query();
+$res = $obj1->insertData('user_files',['userid'=>$id,'filename'=>$newname,'filedir'=>$result]);
+
+
+if($result){
         header('location:fetch.php');
         }else{
             header('location:multiple_files.php');
         }
+
 
 
     }

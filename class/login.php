@@ -15,9 +15,11 @@ class login {
         //if password matches.
             return $row;
          } else {
+          //wrong password
         return false;
          }
      }else{
+      //email not found.
      return NULL;
        }
 
