@@ -4,7 +4,7 @@ if(!isset($_SESSION['login']) || $_SESSION['login']!==true){
   header("location:login.php");
 }
 require_once('class/query.php');
-if ( $_SESSION['newid']) {
+if (isset( $_SESSION['newid'])) {
     echo '<script type="text/javascript">
 
     window.onload = function () { alert("Only pdf files are valid."); }

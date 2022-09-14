@@ -26,6 +26,9 @@ class database{
         
         //return $con;
     }
+    function con(){
+        return $this->con;
+    }
 
 }
 

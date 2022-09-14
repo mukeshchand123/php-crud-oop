@@ -15,6 +15,9 @@
         <a class="nav-link" href="fetch.php" name = "user"><?php echo $_SESSION['email'] ?> <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item active">
+        <a class="nav-link" href="profile.php" name = "user">Profile<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
         <a class="nav-link" href="multiple_files.php" name = "user">upload files<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">

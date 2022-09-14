@@ -1,9 +1,9 @@
 <?php
     class Shape {
             public $a = "mukesg";
-            private $c;
+            protected $c;
         function __construct() { 
-            echo 'Shape.';
+           $this->c = "chand";
         }
     }
 
@@ -19,5 +19,7 @@
 
     }
 
-    $tri = new Line();
+    $shape = new Shape();
+
+    echo"$shape->$c";
 ?>

@@ -16,22 +16,6 @@ $id = $_SESSION['id'];
 if(isset($_POST['create'])){
 
     foreach($_FILES['file']['name'] as $key => $val ){
-    //     $rand = rand('11111','99999');
-    //     $file = $rand.'_'.$val;
-    //     move_uploaded_file($_FILES['file']['tmp_name'][$key],'files/'.$file);
-    //    // $dir = pathinfo($file);
-    //     $path = 'files/'.$file;
-    //    // echo $path."<br>";
-    //    $id = $_SESSION['id'];
-    // //    $sql = "INSERT INTO `user_files` (`userid`, `filename`, `filedir`) VALUES ('$id','$file','$path');";
-    // //    mysqli_query($con,$sql);
-    //     $obj = new query();
-    //    $result= $obj->insertData('user_files',['userid'=>$id,'filename'=>$file,'filedir'=>$path]);
-    //     if($result){
-    //     header('location:fetch.php');
-    //     }else{
-    //         header('location:multiple_files.php');
-    //     }
 //from file class
 $filename=$_FILES['file']['name'][$key];
 $tmp_name=$_FILES['file']['tmp_name'][$key];
