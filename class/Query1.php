@@ -137,17 +137,19 @@ public function updateData($table,$condition="",$field,$value){
     public function searchData($table,$search,$key){
         $sql = "SELECT * FROM `$table` WHERE";
         $c = count($key);
+        $pattern = '%' . $search . '%';
         $i=0;
         foreach($key as $val){
             if($i<$c-1){
-                $sql = $sql." `$key[$i]` LIKE '%$search%' OR ";
+                $sql = $sql." `$key[$i]` LIKE :pattern OR ";
             }else{
-                $sql = $sql." `$key[$i]` LIKE '%$search%' ";
+                $sql = $sql." `$key[$i]` LIKE :pattern ";
             }
             $i++;
         }
+       // echo $sql;
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute();
+        $stmt->execute([':pattern' => $pattern]);
         return $stmt;
          
         //echo" $sql";
