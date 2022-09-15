@@ -11,8 +11,10 @@ if(!isset($_SESSION['login']) || $_SESSION['login']!==true){
     
     $obj = new operation();
    $result= $obj->delete('user_files',$id);
-   if($result!=0){
+   if($result==true){
         header("location:fetch.php");
+    }else{
+      echo"file not found";
     }
    
 

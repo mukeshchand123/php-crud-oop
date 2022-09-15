@@ -3,7 +3,7 @@ session_start();
 if(!isset($_SESSION['login']) || $_SESSION['login']!==true){
   header("location:login.php");
 }
-require_once('class/query.php');
+require_once('class/Query1.php');
 if (isset( $_SESSION['newid'])) {
     echo '<script type="text/javascript">
 
@@ -17,9 +17,9 @@ $id = $_GET['j'];
 }
 
  //fetching data to be edited
- $obj = new query();
+ $obj = new query1();
  $result = $obj->getData('users','*',['id'=>$id]);
- $row = $result->fetch_assoc();
+ $row = $result->fetch(PDO::FETCH_ASSOC);
  $firstname  = $row['firstname'];
  $lastname   = $row['lastname'];
  $email      = $row['email'];

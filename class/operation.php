@@ -1,7 +1,7 @@
 <?php
-require_once('query.php');
+require_once('Query1.php');
 require_once('file.php');
-class operation extends query{
+class operation extends query1{
  
     function fetch($table,$field,$condition=""){
     //$obj = new query();
@@ -15,7 +15,7 @@ class operation extends query{
      //deleting existing file           
     //$obj = new query();
     $dir = $this->getData('users','*',[$condition1=>$condition2]);
-    $row = $dir->fetch_assoc();
+    $row = $dir->fetch(PDO::FETCH_ASSOC);
     $cv =$row['cv'];
     unlink($cv);
 
@@ -33,13 +33,20 @@ class operation extends query{
     if($table =='users'){
    // $obj = new query();
     $data = $this->getData('users','*',['id'=>$id]);
-    $row = $data->fetch_assoc();
+    $row = $data->fetch(PDO::FETCH_ASSOC);
+    $file = $row['cv'];
+    unlink($file);
     $userid =$row['id'];
     $obj1 = new filehandling();
-    $obj1-> filedelete($table,'id',$id);
+    $obj1-> filedelete('user_files','userid',$id);
+    if($obj1 == true){
+      $result =  $this->deleteData('users',['id'=>$id]);
+      return $result;
+    }else{
+      echo"file not found.";
+    }
 
-  $result =  $this->deleteData('users',['id'=>$id]);
-  return $result;
+ 
 }elseif($table=='user_files'){
  
   $obj1 = new filehandling();

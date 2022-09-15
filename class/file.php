@@ -1,6 +1,6 @@
 <?php
-require_once('query.php');
-class filehandling extends query{
+require_once('Query1.php');
+class filehandling extends query1{
     function file_upload($filename,$tmp_name,$dirname,$email){
                  $rand = rand('111111','999999');
              
@@ -23,10 +23,10 @@ class filehandling extends query{
         //$obj = new query();
         $flag = false;
         $userdata = $this->getData($table,'*',[$userid=>$id]);
-        
+        $num_rows = $userdata->rowCount();
         //deleting user files from directory
-        if($userdata->num_rows>0){ 
-          while($rows = $userdata->fetch_assoc()){
+        if($num_rows>0){ 
+          while($rows = $userdata->fetch(PDO::FETCH_ASSOC)){
             $userfile = $rows['filedir'];
             unlink($userfile);
             $flag = true;

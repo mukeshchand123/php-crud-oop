@@ -4,7 +4,7 @@ if(!isset($_SESSION['login']) || $_SESSION['login']!==true){
   header("location:login.php");
 }
 
-require_once('class/query.php');
+require_once('class/Query1.php');
 require_once('class/file.php');
 require_once('class/operation.php');
 
@@ -27,7 +27,7 @@ $result = $obj->file_upload($filename,$tmp_name,$dirname,$email);
 // print_r($file);
 // echo "</pre>";
 $newname = $file[1];
-$obj1 =new query();
+$obj1 =new query1();
 $res = $obj1->insertData('user_files',['userid'=>$id,'filename'=>$newname,'filedir'=>$result]);
 
 

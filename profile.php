@@ -1,21 +1,21 @@
 <?php 
-require_once('class/database.php');
+require_once('class/Database1.php');
 session_start();
 if(!isset($_SESSION['login']) || $_SESSION['login']!==true){
     header("location:login.php");
     exit;
 }
 // db connection
-$databse = new database();
+$databse = new database1();
 $con = $databse->con();
 $id = $_SESSION['id'];
 
  
-$sql = "SELECT `users`.`firstname`, `users`.`lastname`, `user_files`.`filename`, `user_files`.`filedir`,`user_files`.`id` FROM `users` INNER JOIN `user_files` ON `user_files`.`userid` = `users`.`id` 
+$sql = "SELECT `users`.`firstname`, `users`.`lastname`, `user_files`.`filename`, `user_files`.`filedir`,`user_files`.`id` FROM `users` LEFT JOIN `user_files` ON `user_files`.`userid` = `users`.`id` 
         WHERE `users`.`id` = '$id'";
 
- $result =  mysqli_query($con,$sql);
-
+ $result = $con->prepare($sql);
+$result->execute();
 //  while($row = mysqli_fetch_assoc($result)){
 //     echo " ".$row['firstname']." ";
 //     echo " ".$row['lastname']." ";
@@ -45,6 +45,7 @@ $sql = "SELECT `users`.`firstname`, `users`.`lastname`, `user_files`.`filename`,
    <th ><h2>fileid</h2></th>
     <th ><h2>firstname</h2></th>
     <th ><h2>lastname</h2></th>
+    <th ><h2>userid</h2></th>
     <th><h2>fileName</h2></th>
     <th><h2>filedir</h2></th>
     
@@ -52,12 +53,13 @@ $sql = "SELECT `users`.`firstname`, `users`.`lastname`, `user_files`.`filename`,
     
 </tr>
 <?php
-    while($row=$result->fetch_assoc()){
+    while($row=$result->fetch(PDO::FETCH_ASSOC)){
         echo"
         <tr>
            <td>".$row['id']."</td>
             <td>".$row['firstname']."</td>
             <td>".$row['lastname']."</td>
+            <td>".$id."</td>
             <td>".$row['filename']."</td>
             <td>".$row['filedir']."</td>
             

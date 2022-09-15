@@ -54,7 +54,7 @@ if(isset($_POST['create'])){
             
         </tr>
         <?php
-            while($row=$result->fetch_assoc()){
+            while($row=$result->fetch(PDO::FETCH_ASSOC)){
                 echo"
                 <tr>
                     <td>".$row['id']."</td>

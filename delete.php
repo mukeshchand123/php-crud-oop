@@ -11,6 +11,10 @@ if(!isset($_SESSION['login']) || $_SESSION['login']!==true){
     if($id == $_SESSION['id']){ 
 
     $obj = new operation();
+    //code for deleting User_files
+        /*--*/
+        
+    //
     $result = $obj->delete('users',$id);
 
     if($result!=0){

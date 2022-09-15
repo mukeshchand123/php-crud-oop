@@ -1,6 +1,6 @@
 <?php
-require_once('database.php');
-class query extends database{
+require_once('Database1.php');
+class query1 extends database1{
 
 //function for fetching data.
 
@@ -9,7 +9,7 @@ public function getData($table,$field='*',$condition="",$order1 ="",$order2 ="de
     $sql = "SELECT $field FROM `$table`";
 
     if($condition!=""){
-        $sql = $sql." WHERE ";
+        $sql = $sql." WHERE  ";
         $c = count($condition);
         $i=1;
        foreach($condition as $key=>$val){
@@ -28,11 +28,13 @@ public function getData($table,$field='*',$condition="",$order1 ="",$order2 ="de
         $sql = $sql." LIMIT '$limit' ";
     }
    // echo"$sql<br>";
-    $result = mysqli_query($this->con,$sql);
-   
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute();
+  // $stmt= $this->pdo->query($sql);
+   return $stmt;
     
    // print_r($result);
-    return $result;
+   
     // if($result->num_rows > 0){
     //     $arr = [];
     //     while($row = $result->fetch_assoc()){
@@ -61,9 +63,12 @@ public function insertData($table,$condition){
        $value = implode("','", $valuesarr);
        $value = "'".$value."'";
        $sql = "INSERT INTO $table ($field) VALUES ($value)";
-       $result = mysqli_query($this->con,$sql);
+       $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+   //return $stmt;
+    
        //echo$sql;
-       if($result){
+       if($stmt){
         // echo"Data inserted successfully.<br>"; display a message box.
         return true;
        }else {
@@ -91,8 +96,10 @@ public function deleteData($table,$condition=""){
             }
             $i++;
        }
-       $result = mysqli_query($this->con,$sql);
-      return $result;
+       $stmt = $this->pdo->prepare($sql);
+       $stmt->execute();
+       return $stmt;
+    
     }else{
         return 0;
     }
@@ -119,8 +126,10 @@ public function updateData($table,$condition="",$field,$value){
             $i++;
        }
        $sql = $sql." WHERE `$field` = '$value'";
-       $result = mysqli_query($this->con,$sql);  
-       return $result;
+       $stmt = $this->pdo->prepare($sql);
+       $stmt->execute();
+       return $stmt;
+    
     
     }else{
         return 0;
@@ -140,9 +149,12 @@ public function updateData($table,$condition="",$field,$value){
             }
             $i++;
         }
-        $result = mysqli_query($this->con,$sql);
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt;
+         
         //echo" $sql";
-        return $result;
+       
 
 
     }

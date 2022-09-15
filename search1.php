@@ -52,7 +52,7 @@ if(isset($_POST['create'])){
             
         </tr>
         <?php
-            while($row=$result->fetch_assoc()){
+            while($row=$result->fetch(PDO::FETCH_ASSOC)){
                 if($row['userid'] ==$_SESSION['id']){
                 echo"
                 <tr>

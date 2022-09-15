@@ -1,5 +1,5 @@
 <?php 
-require_once('class/query.php');
+require_once('class/Query1.php');
 require_once('class/file.php');
 require_once('class/registration.php');
 
