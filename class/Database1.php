@@ -4,7 +4,7 @@ class database1{
   private $user = 'root';
   private  $password= '';
   private $db_name = 'testdb';
-  protected $pdo;
+  protected $pdo = NULL;
   function __construct(){
     $dsn = "mysql:host=".$this->host.";dbname=".$this->db_name;
     

@@ -14,7 +14,7 @@ class login {
    //  var_dump($num_rows); 
      if($num_rows > 0){
       $row = $result->fetch(PDO::FETCH_ASSOC); 
-      var_dump($row);
+     // var_dump($row);
     
       if(md5($password)==$row['password']){
         //if password matches.
