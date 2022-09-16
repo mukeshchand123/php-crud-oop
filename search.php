@@ -6,7 +6,8 @@ if(!isset($_SESSION['login']) || $_SESSION['login']!==true){
 //require_once('index.php');
 require_once('class/operation.php');
 if(isset($_POST['create'])){
-    $search = $_POST['search'];
+    $search = trim($_POST['search']);
+    $search = htmlspecialchars($search);
     $obj = new operation();
     $result = $obj->search('users',$search,['id','firstname','lastname','email','phn','cv']);
 

@@ -11,12 +11,40 @@ if(isset($_SESSION['login'])){
 }else{
    session_destroy();
 }
-
+function phnvalidate($phn){
+    if(preg_match('/^[0-9]{10}+$/', $phn)) {
+        return true;
+        } else {
+            return false;
+        }
+}
+//Errors 
+$file_err = $email_err = $phn_err = "";
+$firstname = $lastname = $email = $phnNumber = "";
 if(isset($_POST['create'])){
-    $firstname    = $_POST['firstName'];
-    $lastname     = $_POST['lastName'];
-    $email        = $_POST['email'];
-    $phnNumber    = $_POST['phnNumber'];
+        //filter_var($_POST['name'], FILTER_SANITIZE_STRING);
+        $firstname    = filter_var($_POST['firstName'], FILTER_SANITIZE_STRING);
+        
+   
+        $lastname  = filter_var($_POST['lastName'], FILTER_SANITIZE_STRING);
+  
+        
+   
+        $email     =   filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+        if(!filter_var($email, FILTER_SANITIZE_EMAIL)){
+            $email_err = "Invalid Email.";
+        }
+  
+   
+        $phnNumber     = filter_var($_POST['phnNumber'], FILTER_SANITIZE_NUMBER_INT);
+        if(!phnvalidate($phnNumber)){
+            $phn_err = "Invalid phone number.";
+        }
+        
+   
+  //  $lastname     = $_POST['lastName'];
+   // $email        = $_POST['email'];
+    //$phnNumber    = $_POST['phnNumber'];
     $password     = md5($_POST['password']);
    
     $dirname = 'regs';
@@ -29,13 +57,17 @@ if(isset($_POST['create'])){
     $ext = $_FILES['file']['type'];
             // saving file in regs directory
     $valid = $fileobj->filevalidation($ext,$validext);
-            if($valid){
+    if(!$valid){
+        $file_err = "Only pdf files are valid";
+    }
+            if($valid &&   filter_var($email, FILTER_SANITIZE_EMAIL) && phnvalidate($phnNumber)){
                 $dir = $fileobj->file_upload($filename, $tempname, $dirname,$email);
                 $data =['firstname'=>$firstname,'lastname'=>$lastname,'email'=>$email,'phn'=>$phnNumber,'password'=>$password,'cv'=>$dir];
                // $dirname = 'regs';
                 $registerobj = new registration();
                 $result = $registerobj->register($data,$email);
                 if($result==false){
+                    unlink(dir);
                     echo '<script type="text/javascript">
 
                            window.onload = function () { alert("email alraedy exist."); }
@@ -53,7 +85,7 @@ if(isset($_POST['create'])){
                 }else{
                     echo '<script type="text/javascript">
 
-                      window.onload = function () { alert("Only pdf files are valid."); }
+                      window.onload = function () { alert("Please enter valid info."); }
      
                       </script>';
                 }
@@ -93,16 +125,19 @@ if(isset($_POST['create'])){
                     <hr class="mb-3">
                    
                     <label for="firstName">First Name</label>
-                    <input class="form-control" type="firstName" name="firstName" placeholder="First Name" required>
-
+                    <input class="form-control" type="firstName" name="firstName" placeholder="First Name" value="<?php echo $firstname;?>" required><br>
+                   
                     <label for="lastName">Last Name</label>
-                    <input class="form-control" type="lastName" name="lastName"  placeholder="Last Name" required>
+                    <input class="form-control" type="lastName" name="lastName"  placeholder="Last Name"  value="<?php echo $lastname;?>" required><br>
 
                     <label for="email">Email</label>
-                    <input class="form-control" type="email" name="email"  placeholder="something@other.com" required>
- 
+                    <input class="form-control" type="email" name="email"  placeholder="something@other.com"  value="<?php echo $email;?>" required>
+                    
+                    <span class="error"> <?php echo $email_err;?></span><br>
+
                     <label for="phnNumber">Phone Number</label>
-                    <input class="form-control" type="phnNumber" name="phnNumber"  placeholder="Phone Number" required>
+                    <input class="form-control" type="phnNumber" name="phnNumber"  placeholder="Phone Number"  value="<?php echo $phnNumber;?>" required>
+                    <span class="error"> <?php echo $phn_err;?></span><br>
 
                     <label for="password">Password</label>
                     <input class="form-control" type="password" name="password"  placeholder="Password" required>
@@ -111,7 +146,7 @@ if(isset($_POST['create'])){
                      
                     <!-- <label for="cv">CV</label> -->
                     <input type="file" name="file" id="file" accept="application/pdf" required>
-                  
+                    <span class="error"> <?php echo $file_err;?></span>
 
                     <hr class="mb-3">
                     

@@ -7,7 +7,7 @@ if(!isset($_SESSION['login']) || $_SESSION['login']!==true){
    
     require_once('class/operation.php');
    
-    $id = $_GET['i'];
+    $id = filter_var($_GET['j'],FILTER_SANITIZE_NUMBER_INT);
     
     $obj = new operation();
    $result= $obj->delete('user_files',$id);
