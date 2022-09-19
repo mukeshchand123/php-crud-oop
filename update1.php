@@ -5,13 +5,8 @@ if(!isset($_SESSION['login']) || $_SESSION['login']!==true){
   }
   require_once('class/file.php');
   require_once('class/operation.php');
-  function phnvalidate($phn){
-    if(preg_match('/^[0-9]{10}+$/', $phn)) {
-        return true;
-        } else {
-            return false;
-        }
-}
+  require_once('validate.php');
+
 
 $id = filter_var($_SESSION['id'],FILTER_SANITIZE_NUMBER_INT);
 
@@ -118,7 +113,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" || isset($_POST['create'])){
                       $_SESSION['email_err']=$email_err; 
                       $_SESSION['phone_err']=$phn_err;
                      // header( "refresh:1;url=update.php" );//waits for 1 sec before header is sent
-                    // header('location:update.php');
+                     header('location:update.php');
                      exit;
             }
            

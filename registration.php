@@ -2,6 +2,7 @@
 require_once('class/Query1.php');
 require_once('class/file.php');
 require_once('class/registration.php');
+require_once('validate.php');
 
 session_start();
 if(isset($_SESSION['login'])){
@@ -11,13 +12,7 @@ if(isset($_SESSION['login'])){
 }else{
    session_destroy();
 }
-function phnvalidate($phn){
-    if(preg_match('/^[0-9]{10}+$/', $phn)) {
-        return true;
-        } else {
-            return false;
-        }
-}
+
 //Errors 
 $file_err = $email_err = $phn_err = "";
 $firstname = $lastname = $email = $phnNumber = "";
@@ -140,7 +135,7 @@ if(isset($_POST['create'])){
                     <span class="error"> <?php echo $phn_err;?></span><br>
 
                     <label for="password">Password</label>
-                    <input class="form-control" type="password" name="password"  placeholder="Password" required>
+                    <input class="form-control" type="password" name="password"  placeholder="Password" required><br>
 
                    
                      

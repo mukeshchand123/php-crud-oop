@@ -7,7 +7,8 @@ if(!isset($_SESSION['login']) || $_SESSION['login']!==true){
 }
    
    
-$id = filter_var($_GET['j'],FILTER_SANITIZE_NUMBER_INT);
+$id = filter_var($_GET['i'],FILTER_SANITIZE_NUMBER_INT);
+echo $id;
     if($id == $_SESSION['id']){ 
 
     $obj = new operation();

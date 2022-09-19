@@ -1,59 +1,88 @@
 <?php 
 session_start();
+
+//check if user is logged in
 if(!isset($_SESSION['login']) || $_SESSION['login']!==true){
   header("location:login.php");
 }
 require_once('class/Query1.php');
-$email_err=$phn_err=$file_err=$firstname_err=$lastname_err=$password_err="";
-if (isset( $_SESSION['newid'])) {
-    echo '<script type="text/javascript">
+require_once('class/file.php');
+require_once('class/operation.php');
+require_once('validate.php');
+$_SESSION['count'] =0;
+if($_SESSION['count']!=1){
+    $file_err = $email_err = $phn_err = $firstname_err=$lastname_err=$password_err="";
+  //  $firstname = $lastname = $email = $phnNumber =$password=$cv= $filename= $tempname= $ext="";
+    }
+    // if updated value is invalid
+if($_SERVER ['REQUEST_METHOD'] == 'GET'){
+   
+    $id = filter_var($_GET['j'],FILTER_SANITIZE_NUMBER_INT);
+    echo $id;
+   $obj = new query1();
+   $result = $obj->getData('users','*',['id'=>$id]);
+   $row = $result->fetch(PDO::FETCH_ASSOC);
+   $firstname  = $row['firstname'];
+   $lastname   = $row['lastname'];
+   $email      = $row['email'];
+   $phnNumber  = $row['phn'];
+   $password   = $row['password'];
+   $cv         = $row['cv'];
+   $_SESSION['newid']=$id;
+ }elseif ( isset($_POST['create'])) {
+    $_SESSION['count'] =1;
+    $id = $_SESSION['newid'];
+   
+    # code...
+    
+    $firstname    = filter_var($_POST['firstName'], FILTER_SANITIZE_STRING);
+    $lastname  = filter_var($_POST['lastName'], FILTER_SANITIZE_STRING);
+    $email     =   filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    $phnNumber     = filter_var($_POST['phnNumber'], FILTER_SANITIZE_NUMBER_INT);
+    $password     = md5($_POST['password']);
 
-    window.onload = function () { alert("Please enter valid info."); }
+    if(!phnvalidate($phnNumber)){
+        $phn_err = "Phone number is invalid.";
+    }
+   if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+    $email_err = "Email is invalid.";
+   }
 
-    </script>';
-   $id =filter_var($_SESSION['newid'],FILTER_SANITIZE_NUMBER_INT);
-   //echo $id;
-   $email_err       =  $_SESSION['email_err'];
-   $phn_err         =  $_SESSION['phone_err'];
-   $file_err        =  $_SESSION['file_err'];
-   $firstname_err   =  $_SESSION['firstname_err'];
-   $lastname_err    =  $_SESSION['lastname_err'];
-   $password_err    =  $_SESSION['password_err'];
-   var_dump($_SESSION);
-  
-  }else{
- $id = filter_var($_GET['j'],FILTER_SANITIZE_NUMBER_INT);
+    $filename = $_FILES['file']['name'];
+          $tempname = $_FILES['file']['tmp_name'];
+          $ext = $_FILES['file']['type'];
+          $dirname = 'regs';
+          $validext =  ['application/pdf'];
 
+          $fileobj = new filehandling();
+
+          $valid = $fileobj->filevalidation($ext,$validext);
+                if(!$valid){
+                    $file_err ="Only pdf files are valid.";
+                  }
+          //update in case data is valid
+          if($valid &&   filter_var($email, FILTER_VALIDATE_EMAIL) && phnvalidate($phnNumber)){
+                          $dir = $fileobj->file_upload($filename, $tempname, $dirname,$email);
+                          $data =['firstname'=>$firstname,'lastname'=>$lastname,'email'=>$email,'phn'=>$phnNumber,'password'=>$password,'cv'=>$dir];
+                         // $dirname = 'regs';
+                          $obj = new operation();
+                         $result= $obj->update('users',$data,'id',$id); 
+                         if($result== true){
+                            header("location:home.php");
+                          }   
+                          elseif($result==false){
+                              unlink($dir); //delete file from directory if not updated in table
+                              $_SESSION['newid']=$id;
+                              header("location:update.php");
+                          }   
+                      }else{
+                        echo '<script type="text/javascript">
+
+                           window.onload = function () { alert("Please enter valid information."); }
+
+                          </script>';
+                      }        
 }
-
- //fetching data to be edited
- $obj = new query1();
- $result = $obj->getData('users','*',['id'=>$id]);
- $row = $result->fetch(PDO::FETCH_ASSOC);
- $firstname  = $row['firstname'];
- $lastname   = $row['lastname'];
- $email      = $row['email'];
- $phnNumber  = $row['phn'];
- $password   = $row['password'];
- $cv         = $row['cv'];
- $_SESSION['id']=$id;
-
-
-//  $sql = "SELECT * FROM `useraccounts`.`users` WHERE `id`='$id';";
-//  $result     = mysqli_query($con,$sql);
-//  $row        = mysqli_fetch_assoc($result);
-//  $firstname  = $row['firstname'];
-//  $lastname   = $row['lastname'];
-//  $email      = $row['email'];
-//  $phnNumber  = $row['phnNumber'];
-//  $password   = $row['password'];
-//  $cv         = $row['CV'];
-
-
-//Updating data
-
-
-
 
 ?>
 
@@ -73,7 +102,7 @@ if (isset( $_SESSION['newid'])) {
         <?php require_once('navbar2.php');?>
     </div>
 <div>
-    <form action="update1.php" method="post" enctype="multipart/form-data" >
+    <form action="update.php" method="post" enctype="multipart/form-data" >
    
         <div class="container">
             <div class="row">
@@ -106,7 +135,7 @@ if (isset( $_SESSION['newid'])) {
                    
                      
                     <!-- <label for="cv">CV</label> -->
-                    <input type="file" name="file" accept="application/pdf" value=<?php echo"$cv"?> required>
+                    <input type="file" name="file" accept="application/pdf"  required>
                     <span class="error"> <?php echo $file_err;?></span><br>
                   
 
@@ -123,11 +152,11 @@ if (isset( $_SESSION['newid'])) {
 </body>
 </html>
 <?php
- unset($_SESSION['newid']);
- unset( $_SESSION['file_err']);
- unset( $_SESSION['email_err']);
- unset( $_SESSION['phone_err']);
- unset( $_SESSION['firstname_err']);
- unset($_SESSION['lastname_err']);
- unset( $_SESSION['password_err']);
+//  unset($_SESSION['newid']);
+//  unset( $_SESSION['file_err']);
+//  unset( $_SESSION['email_err']);
+//  unset( $_SESSION['phone_err']);
+//  unset( $_SESSION['firstname_err']);
+//  unset($_SESSION['lastname_err']);
+//  unset( $_SESSION['password_err']);
 ?>

@@ -55,10 +55,13 @@ $result = $obj->fetch('users','*');
                     <td>".$row['cv']."</td>
                     <td><a href='delete.php ? i=$row[id]'>Delete <a href='update.php ? j=$row[id]
                    '>Update</td>
-                </tr> ";         
+                </tr> ";    
+                
+               
                     
 
              }
+            // var_dump($_SESSION);
              ?>
     </tablw>
 
